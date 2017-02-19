@@ -1,0 +1,98 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>3D展示</title>
+<style>
+*{ margin:0; padding:0; list-style:none; }
+input{ margin-top:50px; font-size: 20px;}
+#prev{ margin-left:200px;}
+p{ margin-left: 198px;}
+ul{ position:relative; margin:100px auto; width:300px; height:300px; transform-style:preserve-3d; perspective:800px; }
+li{ position:absolute; left:0; top:0; width:100%; height:100%; background:#399; text-align:center; line-height:300px; border:1px solid red; font-size:50px; color:#fff; font-weight:bold; opacity:0; transition:1s all ease; }
+.l2{ transform:translateX(-240px) rotateY(40deg); }
+.l1{ opacity:1; transform:translateX(-200px) rotateY(40deg); }
+.cur{ opacity:1; }
+.r1{ opacity:1; transform:translateX(200px) rotateY(-40deg); }
+.r2{ transform:translateX(240px) rotateY(-40deg); }
+</style>
+<script>
+window.onload=function (){
+	var oPrev=document.getElementById('prev');
+	var oNext=document.getElementById('next');
+	var oBox=document.getElementById('box');
+	var aLi=oBox.children;
+	var bOk=false;
+	
+	var aClass=[];
+	for(var i=0; i<aLi.length; i++){
+		aClass.push(aLi[i].className);
+	}
+	oPrev.onclick=function (){
+		if(bOk)return;
+		bOk=true;
+		aClass.push(aClass.shift());
+		changeClass();
+	};
+	oNext.onclick=function (){
+		if(bOk)return;
+		bOk=true;
+		aClass.unshift(aClass.pop());
+		changeClass();
+	};
+	
+	function changeClass(){
+		for(var i=0; i<aClass.length; i++){
+			aLi[i].className=aClass[i];
+		}
+		//运动结束
+		var oCur=document.querySelector('.cur');
+		
+		function tranEnd(){
+			oCur.removeEventListener('transitionend',tranEnd,false);
+			bOk=false;
+		}
+		oCur.addEventListener('transitionend',tranEnd,false);
+	}
+};
+</script>
+</head>
+
+<body>
+	<input type="button" value="←" id="prev" />
+	<input type="button" value="→" id="next" />
+	<p>点击按钮</p>
+	<ul id="box">
+    	<li class="l2">0</li>
+    	<li class="l1">1</li>
+    	<li class="cur">2</li>
+    	<li class="r1">3</li>
+    	<li class="r2">4</li>
+    	<li>5</li>
+    	<li>6</li>
+    	<li>7</li>
+    	<li>8</li>
+    	<li>9</li>
+    	<li>10</li>
+    </ul>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
